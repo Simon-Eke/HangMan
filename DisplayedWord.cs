@@ -16,22 +16,5 @@ namespace HangMan
             }
             return displayedWord;
         }
-
-        
-
-        // TODO - nån typ av minne och sen overwrite av displayword behövs.
-        public static string Updated(int index, char guess, string randomWord, string cheatString)
-        {
-            char correctLetter = randomWord[index];
-            string displayedWord = cheatString.Replace(Convert.ToChar(index), correctLetter);
-            for (int i = 0; i < displayedWord.Length; i++)
-            {
-                if (displayedWord[i] != correctLetter)
-                {
-                    
-                }
-            }
-            return displayedWord;            
-        }
     }
 }

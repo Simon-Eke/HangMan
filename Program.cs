@@ -22,23 +22,23 @@ foreach (var letter in displayedWord)
     Console.Write(letter);
 }
 
-int lives = 5; // TODO - Kan göras om till försök baserat på ordets längd.
-int tryNumber = (lives + 1) - lives; // Men då måste den här ocks göras om
+int lives = 6; // TODO - Kan göras om till försök baserat på ordets längd.
+int tryNumber = 1; // Men då måste den här ocks göras om
 
-
-while (lives > 0)
+bool match = false;
+while (lives > 0 && !match)
 {
-
+    
     Console.Write($"\nFörsök nummer {{{tryNumber}}}: ");
     bool _ = char.TryParse(Console.ReadLine(), out char guess);
+    // TODO - Användaren ska inte kunna gissa samma nummer.
     int correctGuesses = 0;
     List<int> listOfIndexes = new();
     for (int i = 0; i < length; i++)
     {
         if (guess == newRandomWord[i])
         {
-            listOfIndexes.Add(i);
-            //displayedWord = DisplayedWord.Updated(i, guess, cheatString);
+            listOfIndexes.Add(i);            
             correctGuesses += 1;
         }
     }
@@ -53,14 +53,24 @@ while (lives > 0)
     {
         Console.Write(letter);
     }
-    if (correctGuesses == 0 || !_) lives--;
-    tryNumber++;
+    if (correctGuesses == 0 || !_) lives -= 1;
+    tryNumber += 1;
+
 
     
-    //if (newRandomWord == displayedWord) break;
-
-
-
+    
+    for (int i = 0; i < length; i++)
+    {
+        if (newRandomWord[i] != displayedWord[i])
+        {
+            break;
+        }
+        if (i == length - 1)
+        {
+            match = true;
+        }
+    }
+    
 }
-string result = lives > 0 ? $"Du svarade rätt med {lives} liv kvar" : "GAME OVER";
+string result = lives > 0 ? $"\nDu svarade rätt med {lives} liv kvar" : "\nGAME OVER";
 Console.WriteLine(result);
