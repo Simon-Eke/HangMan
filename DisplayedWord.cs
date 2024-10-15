@@ -8,29 +8,28 @@ namespace HangMan
 {
     internal static class DisplayedWord
     {
-        public static string New(int length)
+        public static List<char> Fill(List<char> displayedWord, int length)
         {
-            string displayedWord = "";
             for (int i = 0; i < length; i++)
             {
-                displayedWord += '_';
+                displayedWord.Add('_');
             }
             return displayedWord;
         }
 
+        
+
         // TODO - nån typ av minne och sen overwrite av displayword behövs.
-        public static string Updated(int length, int index, string randomWord, string displayedWord)
+        public static string Updated(int index, char guess, string randomWord, string cheatString)
         {
             char correctLetter = randomWord[index];
-            foreach (var item in displayedWord)
+            string displayedWord = cheatString.Replace(Convert.ToChar(index), correctLetter);
+            for (int i = 0; i < displayedWord.Length; i++)
             {
-                if (randomWord.IndexOf(item) == index) { displayedWord += correctLetter; }
-
-            }
-            for (int i = 0; i < length; i++)
-            {
-                if (i == index) { displayedWord += correctLetter; }
-                else { displayedWord += '_'; }                
+                if (displayedWord[i] != correctLetter)
+                {
+                    
+                }
             }
             return displayedWord;            
         }
