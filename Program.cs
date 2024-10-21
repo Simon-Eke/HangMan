@@ -2,14 +2,15 @@
 
 // Create a loop for the program - making it possible to try again.
 
-Random randomWord = new();
+// User Interface
+// and add to file.
 
-int randomIndex = randomWord.Next(0, ListOfWords.ListOfPossibleWords().Count);
+// Read from file 
 
-// TODO - när hela programmet kan köras igen så kan random ordet bli samma
-string newRandomWord = ListOfWords.ListOfPossibleWords()[randomIndex];
+NewRandomWord newWord = new();
+string randomWord = await newWord.Get();
 
-int length = newRandomWord.Length;
+int length = randomWord.Length;
 
 // Calls the fill function to return a list with the same length but filled with underscores.
 List<char> displayedWord = new();
@@ -25,8 +26,8 @@ foreach (var underscores in displayedWord)
 int lives = 5; // TODO - Kan göras om till försök baserat på ordets längd.
 int tryNumber = 1; // Men då måste den här också göras om
 
-bool match = false;
-while (lives > 0 && !match)
+bool correctGuess = false;
+while (lives > 0 && !correctGuess)
 {
     
     Console.Write($"\nFörsök nummer {{{tryNumber}}}: ");
@@ -36,7 +37,7 @@ while (lives > 0 && !match)
     List<int> listOfIndexes = new();
     for (int i = 0; i < length; i++)
     {
-        if (guess == newRandomWord[i])
+        if (guess == randomWord[i])
         {
             listOfIndexes.Add(i);            
             correctGuesses += 1;
@@ -65,13 +66,13 @@ while (lives > 0 && !match)
     // If it hasn't broken and its the last letter => match found.
     for (int i = 0; i < length; i++)
     {
-        if (newRandomWord[i] != displayedWord[i])
+        if (randomWord[i] != displayedWord[i])
         {
             break;
         }
         if (i == length - 1)
         {
-            match = true;
+            correctGuess = true;
         }
     } 
     
