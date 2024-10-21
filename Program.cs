@@ -8,7 +8,17 @@
 // Read from file 
 
 NewRandomWord newWord = new();
-string randomWord = await newWord.Get();
+HashSet<string> wordsAlreadyPlayed = new();
+string randomWord;
+int gameCounter = 0;
+gameCounter++;
+do
+{
+    randomWord = await newWord.Get();
+    wordsAlreadyPlayed.Add(randomWord);
+} while (wordsAlreadyPlayed.Count != gameCounter);
+
+
 
 int length = randomWord.Length;
 
@@ -43,7 +53,7 @@ while (lives > 0 && !correctGuess)
             correctGuesses += 1;
         }
     }
-
+    Console.Clear();
     for (int i = 0; i < listOfIndexes.Count; i++)
     {
         displayedWord[listOfIndexes[i]] = guess;
@@ -60,6 +70,7 @@ while (lives > 0 && !correctGuess)
     if (correctGuesses == 0 || !validCharacter) lives -= 1;
     tryNumber += 1;
 
+    
 
     
     // If any characters are different => break. 
