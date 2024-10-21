@@ -9,6 +9,7 @@ namespace HangMan
     public static class ListOfWords
     {
         // TODO - Göra det möjligt att addera ord till listan. (Save to txt.file?)
+        // streamreader funktionen 
         public static List<string> ListOfPossibleWords()
         {
             List<string> listOfWords = 

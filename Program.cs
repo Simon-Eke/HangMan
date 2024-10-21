@@ -73,7 +73,8 @@ while (lives > 0 && !match)
         {
             match = true;
         }
-    }    
+    } 
+    
 }
 string result = lives > 0 ? $"\nDu svarade rätt med {lives} liv kvar" : "\nGAME OVER";
 Console.WriteLine(result);
