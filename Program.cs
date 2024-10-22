@@ -1,6 +1,6 @@
 ﻿using HangMan;
 
-// Create a loop for the program - making it possible to try again.
+// TODO - Create a loop for the program - making it possible to try again.
 
 // User Interface
 // and add to file.
@@ -33,6 +33,7 @@ foreach (var underscores in displayedWord)
     Console.Write(underscores);
 }
 
+List<char> alreadyGuessedLetters = new();
 int lives = 5; // TODO - Kan göras om till försök baserat på ordets längd.
 int tryNumber = 1; // Men då måste den här också göras om
 
@@ -43,6 +44,7 @@ while (lives > 0 && !correctGuess)
     Console.Write($"\nFörsök nummer {{{tryNumber}}}: ");
     bool validCharacter = char.TryParse(Console.ReadLine(), out char guess);
     // TODO - Användaren ska inte kunna gissa samma nummer.
+    alreadyGuessedLetters.Add(guess);
     int correctGuesses = 0;
     List<int> listOfIndexes = new();
     for (int i = 0; i < length; i++)
@@ -53,12 +55,19 @@ while (lives > 0 && !correctGuess)
             correctGuesses += 1;
         }
     }
-    Console.Clear();
+    //Console.Clear();
     for (int i = 0; i < listOfIndexes.Count; i++)
     {
         displayedWord[listOfIndexes[i]] = guess;
     }
 
+    string alreadyGuessed = " ";
+    foreach (var guessedLetter in alreadyGuessedLetters)
+    {
+        alreadyGuessed += guessedLetter;
+        alreadyGuessed += " ";
+    }
+    Console.WriteLine($"Redan gissade bokstäver: {alreadyGuessed}");
 
     foreach (var letter in displayedWord)
     {
