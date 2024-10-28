@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace HangMan
 {
     internal class NewRandomWord
     {
-        private readonly string filePath = @"C:\\Users\Simon\Desktop\listOfHangManWords.txt";
+        private readonly string filePath = @"C:\Users\Simon\source\repos\HangMan\Words.txt";
         
+
 
         private async Task<string> ReadFile()
         {

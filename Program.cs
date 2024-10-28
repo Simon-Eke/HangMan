@@ -27,11 +27,8 @@ List<char> displayedWord = new();
 displayedWord = DisplayedWord.Fill(displayedWord, length);
 
 
-Console.WriteLine("Välkommen till hänga gubbe! Du kommer få gissa bokstäver för ett ord och du kommer få {5} försök.");
-foreach (var underscores in displayedWord)
-{
-    Console.Write(underscores);
-}
+
+
 
 List<char> alreadyGuessedLetters = new();
 int lives = 5; // TODO - Kan göras om till försök baserat på ordets längd.
@@ -40,9 +37,22 @@ int tryNumber = 1; // Men då måste den här också göras om
 bool correctGuess = false;
 while (lives > 0 && !correctGuess)
 {
-    
+    Console.Clear();
+    Console.WriteLine($"Välkommen till hänga gubbe! Du kommer få gissa bokstäver för ett ord. Du har {lives} liv kvar.");
+    foreach (var letter in displayedWord)
+    {
+        Console.Write(letter);
+    }
+    string alreadyGuessed = " ";
+    foreach (var guessedLetter in alreadyGuessedLetters)
+    {
+        alreadyGuessed += guessedLetter;
+        alreadyGuessed += " ";
+    }
+    Console.WriteLine($"\nRedan gissade bokstäver: {alreadyGuessed}");
     Console.Write($"\nFörsök nummer {{{tryNumber}}}: ");
-    bool validCharacter = char.TryParse(Console.ReadLine(), out char guess);
+    
+    char guess = UserGuess.GetChar();
     // TODO - Användaren ska inte kunna gissa samma nummer.
     alreadyGuessedLetters.Add(guess);
     int correctGuesses = 0;
@@ -55,28 +65,19 @@ while (lives > 0 && !correctGuess)
             correctGuesses += 1;
         }
     }
-    //Console.Clear();
+    
     for (int i = 0; i < listOfIndexes.Count; i++)
     {
         displayedWord[listOfIndexes[i]] = guess;
     }
 
-    string alreadyGuessed = " ";
-    foreach (var guessedLetter in alreadyGuessedLetters)
-    {
-        alreadyGuessed += guessedLetter;
-        alreadyGuessed += " ";
-    }
-    Console.WriteLine($"Redan gissade bokstäver: {alreadyGuessed}");
+    
 
-    foreach (var letter in displayedWord)
-    {
-        Console.Write(letter);
-    }
+    
 
 
     // if the guess was incorrect or the user input wasn't valid => subtract a life.
-    if (correctGuesses == 0 || !validCharacter) lives -= 1;
+    if (correctGuesses == 0) lives -= 1;
     tryNumber += 1;
 
     
