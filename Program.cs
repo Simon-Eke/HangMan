@@ -1,102 +1,110 @@
 ﻿using HangMan;
 
 // TODO - Create a loop for the program - making it possible to try again.
-
-// User Interface
-// and add to file.
-
-// Read from file 
-
+int lives;
 NewRandomWord newWord = new();
 HashSet<string> wordsAlreadyPlayed = new();
-string randomWord;
 int gameCounter = 0;
-gameCounter++;
+int highScore = 0;
 do
 {
-    randomWord = await newWord.Get();
-    wordsAlreadyPlayed.Add(randomWord);
-} while (wordsAlreadyPlayed.Count != gameCounter);
+    // User Interface
+    // and add to file.
 
+    // Read from file 
 
-
-int length = randomWord.Length;
-
-// Calls the fill function to return a list with the same length but filled with underscores.
-List<char> displayedWord = new();
-displayedWord = DisplayedWord.Fill(displayedWord, length);
-
-
-
-
-
-List<char> alreadyGuessedLetters = new();
-int lives = 5; // TODO - Kan göras om till försök baserat på ordets längd.
-int tryNumber = 1; // Men då måste den här också göras om
-
-bool correctGuess = false;
-while (lives > 0 && !correctGuess)
-{
-    Console.Clear();
-    Console.WriteLine($"Välkommen till hänga gubbe! Du kommer få gissa bokstäver för ett ord. Du har {lives} liv kvar.");
-    foreach (var letter in displayedWord)
-    {
-        Console.Write(letter);
-    }
-    string alreadyGuessed = " ";
-    foreach (var guessedLetter in alreadyGuessedLetters)
-    {
-        alreadyGuessed += guessedLetter;
-        alreadyGuessed += " ";
-    }
-    Console.WriteLine($"\nRedan gissade bokstäver: {alreadyGuessed}");
-    Console.Write($"\nFörsök nummer {{{tryNumber}}}: ");
     
-    char guess = UserGuess.GetChar();
-    // TODO - Användaren ska inte kunna gissa samma nummer.
-    alreadyGuessedLetters.Add(guess);
-    int correctGuesses = 0;
-    List<int> listOfIndexes = new();
-    for (int i = 0; i < length; i++)
+    string randomWord;
+    
+    gameCounter++;
+    do
     {
-        if (guess == randomWord[i])
+        randomWord = await newWord.Get();
+        wordsAlreadyPlayed.Add(randomWord);
+    } while (wordsAlreadyPlayed.Count != gameCounter);
+
+
+
+    int length = randomWord.Length;
+
+    // Calls the fill function to return a list with the same length but filled with underscores.
+    List<char> displayedWord = new();
+    displayedWord = DisplayedWord.Fill(displayedWord, length);
+
+
+
+
+
+    List<char> alreadyGuessedLetters = new();
+    lives = 5; // TODO - Kan göras om till försök baserat på ordets längd.
+    int tryNumber = 1; // Men då måste den här också göras om
+
+    bool correctGuess = false;
+    while (lives > 0 && !correctGuess)
+    {
+        Console.Clear();
+        Console.WriteLine($"Välkommen till hänga gubbe! Du kommer få gissa bokstäver för ett ord. Du har {lives} liv kvar.");
+        Console.WriteLine($"Highscore: {highScore}");
+        foreach (var letter in displayedWord)
         {
-            listOfIndexes.Add(i);            
-            correctGuesses += 1;
+            Console.Write(letter);
         }
-    }
-    
-    for (int i = 0; i < listOfIndexes.Count; i++)
-    {
-        displayedWord[listOfIndexes[i]] = guess;
-    }
-
-    
-
-    
-
-
-    // if the guess was incorrect or the user input wasn't valid => subtract a life.
-    if (correctGuesses == 0) lives -= 1;
-    tryNumber += 1;
-
-    
-
-    
-    // If any characters are different => break. 
-    // If it hasn't broken and its the last letter => match found.
-    for (int i = 0; i < length; i++)
-    {
-        if (randomWord[i] != displayedWord[i])
+        string alreadyGuessed = " ";
+        foreach (var guessedLetter in alreadyGuessedLetters)
         {
-            break;
+            alreadyGuessed += guessedLetter;
+            alreadyGuessed += " ";
         }
-        if (i == length - 1)
+        Console.WriteLine($"\nRedan gissade bokstäver: {alreadyGuessed}");
+        Console.Write($"\nFörsök nummer {{{tryNumber}}}: ");
+
+        char guess = UserGuess.GetChar();
+        // TODO - Användaren ska inte kunna gissa samma nummer.
+        alreadyGuessedLetters.Add(guess);
+        int correctGuesses = 0;
+        List<int> listOfIndexes = new();
+        for (int i = 0; i < length; i++)
         {
-            correctGuess = true;
+            if (guess == randomWord[i])
+            {
+                listOfIndexes.Add(i);
+                correctGuesses += 1;
+            }
         }
-    } 
-    
-}
-string result = lives > 0 ? $"\nDu svarade rätt med {lives} liv kvar" : "\nGAME OVER";
-Console.WriteLine(result);
+
+        for (int i = 0; i < listOfIndexes.Count; i++)
+        {
+            displayedWord[listOfIndexes[i]] = guess;
+        }
+
+
+
+
+
+
+        // if the guess was incorrect or the user input wasn't valid => subtract a life.
+        if (correctGuesses == 0) lives -= 1;
+        tryNumber += 1;
+
+
+
+
+        // If any characters are different => break. 
+        // If it hasn't broken and its the last letter => match found.
+        for (int i = 0; i < length; i++)
+        {
+            if (randomWord[i] != displayedWord[i])
+            {
+                break;
+            }
+            if (i == length - 1)
+            {
+                highScore++;
+                correctGuess = true;
+            }
+        }
+
+    }
+    string result = lives > 0 ? $"\nDu svarade rätt med {lives} liv kvar" : "\nGAME OVER";
+    Console.WriteLine(result);
+} while (lives > 0);
